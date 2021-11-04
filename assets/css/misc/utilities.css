@@ -106,11 +106,15 @@
     margin-top: 30px;
 }
 
+.u-text-format ul li:not(:first-child),
+.u-text-format ol li:not(:first-child) {
+    margin-top: 10px;
+}
+
 .has-serif-body .u-text-format > blockquote,
 .has-serif-body .u-text-format > ol,
 .has-serif-body .u-text-format > ul,
 .has-serif-body .u-text-format > dl,
 .has-serif-body .u-text-format > p {
     font-family: var(--font-serif);
-    font-size: 19px;
 }

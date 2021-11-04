@@ -21,8 +21,6 @@
 
 .has-serif-body .post-excerpt {
     font-family: var(--font-serif);
-    font-size: 22px;
-    line-height: 1.4;
 }
 
 .post-media {
