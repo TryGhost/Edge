@@ -4,3 +4,7 @@
     font-weight: 600;
     letter-spacing: -0.009em;
 }
+
+.is-head-left-logo .gh-head-menu {
+    justify-content: center;
+}
