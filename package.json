@@ -1,5 +1,5 @@
 {
-    "name": "edge",
+    "name": "edge-with-paging-2",
     "description": "A Ghost theme",
     "version": "1.0.0",
     "private": true,
@@ -43,6 +43,11 @@
                 "type": "select",
                 "options": ["Logo on the left", "Logo in the middle", "Stacked"],
                 "default": "Logo in the middle"
+            },
+            "on_post_click": {
+                "type": "select",
+                "options": ["Open gallery", "Go to post page", "Nothing"],
+                "default": "Go to post page"
             },
             "title_font": {
                 "type": "select",

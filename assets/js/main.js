@@ -44,11 +44,12 @@ function feed() {
         '.post',
         '.post-lightbox',
         '.post-caption',
+        '.post-link',
         false
     );
 }
 
-function pswp(container, element, trigger, caption, isGallery) {
+function pswp(container, element, trigger, caption, postLink, isGallery) {
     var parseThumbnailElements = function (el) {
         var items = [],
             gridEl,
@@ -135,4 +136,10 @@ function pswp(container, element, trigger, caption, isGallery) {
     $(container).on('click', trigger, function (e) {
         onThumbnailsClick(e);
     });
+
+    if ($(container).hasClass('post-feed_mode_gallery')) {
+        $(container).on('click', postLink, function (e) {
+            onThumbnailsClick(e);
+        });
+    }
 }
