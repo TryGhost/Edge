@@ -12,3 +12,10 @@
 .is-head-left-logo .gh-head-inner {
     grid-template-columns: 100px 1fr 100px;
 }
+
+@media (min-width: 992px) {
+    .is-head-left-logo .gh-head-menu {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
