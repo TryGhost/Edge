@@ -1,5 +1,5 @@
 {
-    "name": "edge-with-paging-2",
+    "name": "edge-with-paging",
     "description": "A Ghost theme",
     "version": "1.0.0",
     "private": true,
@@ -41,13 +41,25 @@
         "custom": {
             "navigation_layout": {
                 "type": "select",
-                "options": ["Logo on the left", "Logo in the middle", "Stacked"],
+                "options": [
+                    "Logo on the left",
+                    "Logo in the middle",
+                    "Stacked"
+                ],
                 "default": "Logo in the middle"
             },
             "on_post_click": {
                 "type": "select",
-                "options": ["Open gallery", "Go to post page", "Nothing"],
+                "options": [
+                    "Open gallery",
+                    "Go to post page",
+                    "Nothing"
+                ],
                 "default": "Go to post page"
+            },
+            "enable_pagination": {
+                "type": "boolean",
+                "default": true
             },
             "title_font": {
                 "type": "select",
@@ -87,13 +99,13 @@
         "autoprefixer": "10.4.13",
         "beeper": "2.1.0",
         "cssnano": "5.1.14",
-        "gscan": "4.36.0",
-        "gulp": "4.0.2",
+        "gscan": "^3.3.1",
+        "gulp": "^4.0.2",
         "gulp-concat": "2.6.1",
         "gulp-livereload": "4.0.2",
         "gulp-postcss": "9.0.1",
         "gulp-uglify": "3.0.2",
-        "gulp-zip": "5.1.0",
+        "gulp-zip": "^4.2.0",
         "postcss": "8.4.21",
         "postcss-easy-import": "4.0.0",
         "pump": "3.0.0"

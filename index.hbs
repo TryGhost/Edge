@@ -2,6 +2,7 @@
 
 <main class="site-main">
 
+    {{#match @custom.enable_pagination}}{{pagination}}{{/match}}
     <div class="post-feed gh-feed{{#match @custom.on_post_click "Open gallery"}} post-feed_mode_gallery{{/match}}">
         <div class="grid-item grid-sizer"></div>
         {{#foreach posts}}

@@ -4,6 +4,7 @@
 @import "general/masonry.css";
 @import "site/layout.css";
 @import "site/header.css";
+@import "site/pagination.css";
 @import "blog/feed.css";
 @import "blog/post.css";
 @import "blog/article.css";

@@ -1,6 +1,7 @@
 $(function () {
     'use strict';
     feed();
+    renderPagination();
 });
 
 function feed() {
@@ -142,4 +143,96 @@ function pswp(container, element, trigger, caption, postLink, isGallery) {
             onThumbnailsClick(e);
         });
     }
+}
+
+function renderPagination() {
+    let numberPagination = $('.numbers-pagination');
+    if (!numberPagination || !numberPagination.length) {
+        return;
+    }
+    let page = numberPagination.data('page');
+    let total = numberPagination.data('total');
+    let isSmall = false;
+
+    let pagingElements = rebuildPagination(page, total, isSmall);
+
+    let pagingHtmlNodes = pagingElements.map((el, i, arr) => {
+        let node = document.createElement('a')
+        node.classList.add('numbers-pagination__el');
+        let hrefValue = el === '...' ?  '/page/' + Math.round((arr[i+1] + arr[i-1])/2) : '/page/' + el;
+        node.setAttribute('href', hrefValue);
+        node.innerText = el;
+        return node;
+    });
+    let activeNodeIndex = pagingElements.indexOf(page);
+    let activeNode = pagingHtmlNodes[activeNodeIndex];
+    activeNode.removeAttribute("href");
+    activeNode.classList.add('numbers-pagination__el_active');
+
+    let numbersBlock = $('.numbers-pagination__pages');
+    numbersBlock.empty();
+    pagingHtmlNodes.forEach(n => numbersBlock.append(n));
+}
+
+function rebuildPagination(page, total, isSmallScreen = false) {
+    let numberElCount = isSmallScreen ? 5 : 9;
+    let hasNext = page !== total;
+    let hasPrev = page !== 1;
+
+    if (total <= numberElCount) {
+        return fillIntegerArray(total);
+    }
+
+    let arr = [];
+    arr.push(page);
+
+    let i = 0;
+    let tmp;
+    while (arr.length < (tmp = numberElCount - (+hasNext) - (+hasPrev) - (+isLeftNotFilled(page, i)) - (+isRightNotFilled(page, i, total)))) {
+        i++;
+        if (isLeftNotFilled(page, i-1)) {
+            arr.unshift(page - i);
+        }
+
+        if (isRightNotFilled(page, i-1, total)) {
+            arr.push(page + i);
+        }
+    }
+
+    if (isLeftNotFilled(page, i)) {
+        if (isLeftNotFilled(page, i+1)) {
+            arr.unshift("...");
+        } else {
+            arr.unshift(page - (i + 1));
+        }
+    }
+    if (isRightNotFilled(page, i, total)) {
+        if (isRightNotFilled(page, i+1, total)) {
+            arr.push("...");
+        } else {
+            arr.push(page + (i + 1));
+        }
+    }
+    if (hasPrev) {
+        arr.unshift(1);
+    }
+    if (hasNext) {
+        arr.push(total);
+    }
+    return arr;
+}
+
+function fillIntegerArray(n) {
+    let arr = [];
+    for(let i = 1; i <= n; i++) {
+        arr.push(i);
+    }
+    return arr;
+}
+function isLeftNotFilled(page, i) {
+    return page - i > 2;
+}
+
+function isRightNotFilled(page, i, total) {
+    return page + i < total - 1;
 }
