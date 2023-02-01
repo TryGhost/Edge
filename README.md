@@ -1,5 +1,7 @@
 # Edge
 
+> Edge template with simple custom numeric paging block
+
 A visually aesthetic [Ghost](https://github.com/TryGhost/Ghost) theme designed for creative professionals. Showcase your works with minimal style and presentation.
 
 **Demo: https://edge.ghost.io**
