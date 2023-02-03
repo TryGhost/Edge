@@ -1,6 +1,10 @@
 <nav class="numbers-pagination" role="navigation" data-page="{{page}}" data-total="{{pages}}">
-    <a class="numbers-pagination__el numbers-pagination__left{{#unless prev}} numbers-pagination__el_disabled{{/unless}}" href="{{page_url prev}}"><</a>
-    <div class="numbers-pagination__pages">
+    <div class="numbers-pagination_margin"></div>
+    <div class="numbers-pagination__with-arrows">
+        <a class="numbers-pagination__el numbers-pagination__left{{#unless prev}} numbers-pagination__el_disabled{{/unless}}" href="{{page_url prev}}"><</a>
+        <div class="numbers-pagination__pages">
+        </div>
+        <a class="numbers-pagination__el numbers-pagination__right{{#unless next}} numbers-pagination__el_disabled{{/unless}}" href="{{page_url next}}">></a>
     </div>
-    <a class="numbers-pagination__el numbers-pagination__right{{#unless next}} numbers-pagination__el_disabled{{/unless}}" href="{{page_url next}}">></a>
+    <div class="numbers-pagination_margin"></div>
 </nav>
