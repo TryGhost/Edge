@@ -3,11 +3,19 @@
 <main class="site-main">
 
     {{#match @custom.enable_pagination}}{{pagination}}{{/match}}
+        <!--    {{#get 'tags' limit='all' include='count.posts' order='count.posts desc'}}-->
+        <!--        {{#foreach tags}}-->
+        <!--            <a href='{{ url }}'>-->
+        <!--                <h2>{{ name }} <small>({{ count.posts }})</small></h2>-->
+        <!--            </a>-->
+            <!--        {{/foreach}}-->
+        <!--    {{/get}}-->
     <div class="post-feed gh-feed{{#match @custom.on_post_click "Open gallery"}} post-feed_mode_gallery{{/match}}">
         <div class="grid-item grid-sizer"></div>
         {{#foreach posts}}
             {{> "loop"}}
         {{/foreach}}
     </div>
+    {{#match @custom.enable_pagination}}{{pagination}}{{/match}}
 
 </main>

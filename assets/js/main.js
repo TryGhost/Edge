@@ -11,6 +11,13 @@ function feed() {
     if (!grid) return;
     var masonry;
 
+
+    let numberPagination = $('.numbers-pagination');
+    let page;
+    if (numberPagination && numberPagination.length) {
+        page = numberPagination.data("page");
+    }
+
     imagesLoaded(grid, function () {
         masonry = new Masonry(grid, {
             itemSelector: '.grid-item',
@@ -27,6 +34,11 @@ function feed() {
         masonry.layout();
 
         function callback(items, loadNextPage) {
+            if (numberPagination && numberPagination.length) {
+                page++;
+                numberPagination.data("page", page);
+                renderPagination();
+            }
             imagesLoaded(items, function (loaded) {
                 masonry.appended(items);
                 masonry.layout();
@@ -154,6 +166,24 @@ function renderPagination() {
     let total = numberPagination.data('total');
     let isSmall = false;
 
+    let leftArrow = $('.numbers-pagination__left');
+    let rightArrow = $('.numbers-pagination__right');
+    if (leftArrow && leftArrow.length) {
+        if (page === 1) {
+            leftArrow.addClass("numbers-pagination__el_disabled");
+        } else {
+            leftArrow.removeClass("numbers-pagination__el_disabled");
+        }
+    }
+
+    if (rightArrow && rightArrow.length) {
+        if (page === total) {
+            rightArrow.addClass("numbers-pagination__el_disabled");
+        } else {
+            rightArrow.removeClass("numbers-pagination__el_disabled");
+        }
+    }
+
     let pagingElements = rebuildPagination(page, total, isSmall);
 
     let pagingHtmlNodes = pagingElements.map((el, i, arr) => {
@@ -175,7 +205,8 @@ function renderPagination() {
 }
 
 function rebuildPagination(page, total, isSmallScreen = false) {
-    let numberElCount = isSmallScreen ? 5 : 9;
+    let numberElCount = isSmallScreen ? 7 : 7;
+    // let numberElCount = isSmallScreen ? 5 : 9;
     let hasNext = page !== total;
     let hasPrev = page !== 1;
 
