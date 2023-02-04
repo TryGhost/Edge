@@ -1,4 +1,4 @@
-name: NodeJS with Gulp
+name: Build zip with Gulp and upload to S3+Ghost Admin
 
 on:
   push:
@@ -11,7 +11,6 @@ env:
 permissions:
       id-token: write
       contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
