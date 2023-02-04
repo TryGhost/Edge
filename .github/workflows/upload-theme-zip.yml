@@ -5,7 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+  AWS_REGION : "eu-central-1"
 
+permissions:
+      id-token: write
+      contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,3 +27,13 @@ jobs:
       run: |
         npm install
         gulp zip
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.ASSUME_ROLE }}
+        role-session-name: samplerolesession
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name:  Copy to s3
+      run: |
+        aws s3 cp ./dist/edge-with-paging.zip s3://${{ secrets.BUCKET_NAME }}/edge-with-paging.zip
