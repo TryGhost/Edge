@@ -3,8 +3,6 @@ name: Build zip with Gulp and upload to S3+Ghost Admin
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 env:
   AWS_REGION : "eu-central-1"
