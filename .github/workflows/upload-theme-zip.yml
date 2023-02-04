@@ -37,3 +37,9 @@ jobs:
     - name:  Copy to s3
       run: |
         aws s3 cp ./dist/edge-with-paging.zip s3://${{ secrets.BUCKET_NAME }}/edge-with-paging.zip
+    - name: Deploy Ghost Theme
+      uses: TryGhost/action-deploy-theme@v1
+      with:
+        api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
+        api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+        file: ./dist/edge-with-paging.zip
