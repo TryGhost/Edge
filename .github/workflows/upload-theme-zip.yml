@@ -1,0 +1,47 @@
+name: Build zip with Gulp and upload to S3+Ghost Admin
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  AWS_REGION : "eu-central-1"
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version:  18.x
+
+    - name: Build
+      run: |
+        npm install
+        gulp zip
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.ASSUME_ROLE }}
+        role-session-name: samplerolesession
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name:  Copy to s3
+      run: |
+        aws s3 cp ./dist/edge-with-paging.zip s3://${{ secrets.BUCKET_NAME }}/edge-with-paging.zip
+    - name: Deploy Ghost Theme
+      uses: TryGhost/action-deploy-theme@v1
+      with:
+        api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
+        api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+        file: ./dist/edge-with-paging.zip
