@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Portfolio - Horizontal Scroll Gallery
+   Carousel-style presentation for photography portfolios
+   ========================================================================== */
+
+/* ==========================================================================
+   Container - Full viewport below header, no scroll
+   ========================================================================== */
+
+.portfolio-container {
+    position: fixed;
+    top: 80px; /* Header height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+/* ==========================================================================
+   Gallery - Horizontal Carousel
+   ========================================================================== */
+
+.portfolio-gallery.gh-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    /* Reset inherited styles */
+    margin-top: 0;
+    font-size: inherit;
+
+    /* Padding so first/last images can center */
+    padding-left: 50vw;
+    padding-right: 50vw;
+}
+
+.portfolio-gallery.gh-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Reset vertical spacing between elements */
+.portfolio-gallery.gh-content > * + * {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   Slides (Image Cards) - Carousel with visible adjacent images
+   ========================================================================== */
+
+.portfolio-gallery .kg-image-card {
+    flex: 0 0 auto;
+    height: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+
+.portfolio-gallery .kg-image-card img.kg-image {
+    height: 75vh;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Hide captions in carousel view */
+.portfolio-gallery .kg-image-card figcaption {
+    display: none;
+}
+
+/* ==========================================================================
+   Navigation Arrows
+   ========================================================================== */
+
+.portfolio-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-nav-btn {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e6e6e6;
+    border-radius: 50%;
+    color: var(--color-primary-text);
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.portfolio-nav-btn:hover {
+    background: #fff;
+    border-color: #ccc;
+}
+
+.portfolio-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.portfolio-nav-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ==========================================================================
+   Caption Display
+   ========================================================================== */
+
+.portfolio-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+    max-width: 80%;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--color-primary-text);
+    opacity: 0.7;
+    letter-spacing: -0.01em;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-caption:empty {
+    display: none;
+}
+
+/* ==========================================================================
+   UI Auto-Hide
+   ========================================================================== */
+
+.portfolio-container.ui-hidden .portfolio-nav,
+.portfolio-container.ui-hidden .portfolio-caption {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.ui-hidden #gh-head {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .portfolio-container {
+        top: 64px; /* Smaller header on mobile */
+    }
+
+    .portfolio-gallery .kg-image-card img.kg-image {
+        height: 65vh;
+    }
+
+    .portfolio-nav {
+        padding: 0 12px;
+    }
+
+    .portfolio-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .portfolio-nav-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .portfolio-caption {
+        bottom: 16px;
+    }
+}
+
+/* Larger touch targets on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .portfolio-nav-btn {
+        width: 56px;
+        height: 56px;
+    }
+}
