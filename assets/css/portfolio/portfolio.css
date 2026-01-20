@@ -27,6 +27,7 @@
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 
@@ -55,6 +56,8 @@
 .portfolio-gallery .kg-image-card {
     flex: 0 0 auto;
     height: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
     display: flex;
     align-items: center;
     justify-content: center;

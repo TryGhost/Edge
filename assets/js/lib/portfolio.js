@@ -28,11 +28,7 @@
         // Handle first image - remove lazy loading for LCP
         handleFirstImage();
 
-        // Center first slide immediately
-        slides[0].scrollIntoView({
-            behavior: 'instant',
-            inline: 'center'
-        });
+        // CSS scroll-snap handles centering the first image
 
         // Preload adjacent images
         preloadAdjacent(currentIndex);
@@ -228,10 +224,11 @@
     }
 
     /**
-     * Handle wheel - convert vertical to horizontal
+     * Handle wheel - convert vertical to horizontal (no snap)
      */
     function handleWheel(e) {
         e.preventDefault();
+        gallery.style.scrollSnapType = 'none';
         gallery.scrollLeft += e.deltaY;
     }
 
