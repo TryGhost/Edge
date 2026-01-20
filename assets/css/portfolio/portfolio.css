@@ -27,8 +27,6 @@
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 
@@ -57,8 +55,6 @@
 .portfolio-gallery .kg-image-card {
     flex: 0 0 auto;
     height: 100%;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +67,6 @@
     height: 85vh;
     width: auto;
     object-fit: contain;
-    cursor: default;
 }
 
 /* Hide captions in carousel view */
@@ -80,56 +75,17 @@
 }
 
 /* ==========================================================================
-   Navigation Arrows
+   Cursor-based Navigation
    ========================================================================== */
 
-.portfolio-nav {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 24px;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+.portfolio-gallery.cursor-prev,
+.portfolio-gallery.cursor-prev * {
+    cursor: w-resize !important;
 }
 
-.portfolio-nav-btn {
-    pointer-events: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #e6e6e6;
-    border-radius: 50%;
-    color: var(--color-primary-text);
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        opacity 0.2s ease;
-}
-
-.portfolio-nav-btn:hover {
-    background: #fff;
-    border-color: #ccc;
-}
-
-.portfolio-nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.portfolio-nav-btn svg {
-    width: 20px;
-    height: 20px;
+.portfolio-gallery.cursor-next,
+.portfolio-gallery.cursor-next * {
+    cursor: e-resize !important;
 }
 
 /* ==========================================================================
@@ -169,29 +125,7 @@
         height: 75vh;
     }
 
-    .portfolio-nav {
-        padding: 0 12px;
-    }
-
-    .portfolio-nav-btn {
-        width: 40px;
-        height: 40px;
-    }
-
-    .portfolio-nav-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-
     .portfolio-caption {
         bottom: 16px;
-    }
-}
-
-/* Larger touch targets on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .portfolio-nav-btn {
-        width: 56px;
-        height: 56px;
     }
 }

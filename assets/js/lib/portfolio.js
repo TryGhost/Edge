@@ -1,6 +1,6 @@
 /**
  * Portfolio - Horizontal Scroll Gallery
- * Handles keyboard navigation, wheel conversion, and preloading
+ * Handles cursor-based navigation, keyboard, wheel, and preloading
  */
 (function() {
     'use strict';
@@ -12,13 +12,12 @@
     // DOM elements
     var gallery = container.querySelector('.portfolio-gallery');
     var slides = gallery.querySelectorAll('.kg-image-card');
-    var prevBtn = container.querySelector('.portfolio-nav-prev');
-    var nextBtn = container.querySelector('.portfolio-nav-next');
     var captionEl = container.querySelector('.portfolio-caption');
 
     // State
     var currentIndex = 0;
     var totalSlides = slides.length;
+    var scrollTimeout;
 
     /**
      * Initialize portfolio
@@ -29,11 +28,17 @@
         // Handle first image - remove lazy loading for LCP
         handleFirstImage();
 
+        // Center first slide immediately
+        slides[0].scrollIntoView({
+            behavior: 'instant',
+            inline: 'center'
+        });
+
         // Preload adjacent images
         preloadAdjacent(currentIndex);
 
         // Update UI state
-        updateNavButtons();
+        updateCursor();
         updateCaption();
 
         // Bind events
@@ -107,7 +112,7 @@
         });
 
         currentIndex = index;
-        updateNavButtons();
+        updateCursor();
         updateCaption();
         preloadAdjacent(index);
     }
@@ -120,14 +125,34 @@
     }
 
     /**
-     * Update navigation button states
+     * Update cursor based on current position and boundaries
      */
-    function updateNavButtons() {
-        if (prevBtn) {
-            prevBtn.disabled = currentIndex === 0;
+    function updateCursor(mouseX) {
+        gallery.classList.remove('cursor-prev', 'cursor-next');
+
+        // If no mouse position provided, don't set a directional cursor
+        if (mouseX === undefined) return;
+
+        // First image: always show next cursor
+        if (currentIndex === 0) {
+            gallery.classList.add('cursor-next');
+            return;
         }
-        if (nextBtn) {
-            nextBtn.disabled = currentIndex === totalSlides - 1;
+
+        // Last image: always show prev cursor
+        if (currentIndex === totalSlides - 1) {
+            gallery.classList.add('cursor-prev');
+            return;
+        }
+
+        // Middle images: cursor based on position
+        var galleryRect = gallery.getBoundingClientRect();
+        var centerX = galleryRect.left + galleryRect.width / 2;
+
+        if (mouseX < centerX) {
+            gallery.classList.add('cursor-prev');
+        } else {
+            gallery.classList.add('cursor-next');
         }
     }
 
@@ -156,7 +181,7 @@
             if (slideRect.left <= centerX && slideRect.right >= centerX) {
                 if (i !== currentIndex) {
                     currentIndex = i;
-                    updateNavButtons();
+                    updateCursor();
                     updateCaption();
                     preloadAdjacent(i);
                 }
@@ -166,13 +191,48 @@
     }
 
     /**
-     * Convert vertical wheel to horizontal scroll
+     * Handle mouse movement - update cursor based on position
+     */
+    function handleMouseMove(e) {
+        updateCursor(e.clientX);
+    }
+
+    /**
+     * Handle click - navigate based on which side was clicked
+     */
+    function handleClick(e) {
+        // Don't navigate if clicking on caption
+        if (e.target.closest('.portfolio-caption')) return;
+
+        // First image: always go forward
+        if (currentIndex === 0) {
+            navigate(1);
+            return;
+        }
+
+        // Last image: always go back
+        if (currentIndex === totalSlides - 1) {
+            navigate(-1);
+            return;
+        }
+
+        // Middle images: left half goes back, right half goes forward
+        var galleryRect = gallery.getBoundingClientRect();
+        var centerX = galleryRect.left + galleryRect.width / 2;
+
+        if (e.clientX < centerX) {
+            navigate(-1);
+        } else {
+            navigate(1);
+        }
+    }
+
+    /**
+     * Handle wheel - convert vertical to horizontal
      */
     function handleWheel(e) {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-            e.preventDefault();
-            gallery.scrollLeft += e.deltaY;
-        }
+        e.preventDefault();
+        gallery.scrollLeft += e.deltaY;
     }
 
     /**
@@ -205,29 +265,24 @@
      * Bind all event listeners
      */
     function bindEvents() {
-        // Navigation buttons
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigate(-1);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigate(1);
-            });
-        }
-
         // Scroll sync (throttled)
-        var scrollTimeout;
         gallery.addEventListener('scroll', function() {
             clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(handleScroll, 100);
+            scrollTimeout = setTimeout(handleScroll, 150);
         }, { passive: true });
 
-        // Wheel to horizontal conversion
+        // Mouse movement for cursor updates
+        gallery.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+        // Reset cursor when mouse leaves
+        gallery.addEventListener('mouseleave', function() {
+            gallery.classList.remove('cursor-prev', 'cursor-next');
+        });
+
+        // Click navigation
+        gallery.addEventListener('click', handleClick);
+
+        // Wheel navigation (discrete)
         gallery.addEventListener('wheel', handleWheel, { passive: false });
 
         // Keyboard navigation

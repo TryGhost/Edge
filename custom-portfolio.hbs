@@ -67,16 +67,6 @@
 
     {{#post}}
     <main class="portfolio-container" role="region" aria-label="{{title}} gallery">
-        {{!-- Navigation arrows --}}
-        <nav class="portfolio-nav" aria-label="Gallery navigation">
-            <button class="portfolio-nav-btn portfolio-nav-prev" aria-label="Previous image" disabled>
-                {{> "icons/arrow-left"}}
-            </button>
-            <button class="portfolio-nav-btn portfolio-nav-next" aria-label="Next image">
-                {{> "icons/arrow-right"}}
-            </button>
-        </nav>
-
         {{!-- Horizontal scroll gallery --}}
         <div class="portfolio-gallery gh-content">
             {{content}}
