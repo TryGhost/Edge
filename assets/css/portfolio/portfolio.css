@@ -64,6 +64,7 @@
     padding: 0 4px;
     box-sizing: border-box;
     margin: 0 !important;
+    position: relative;
 }
 
 .portfolio-gallery .kg-image-card img.kg-image {
@@ -72,9 +73,24 @@
     object-fit: contain;
 }
 
-/* Hide captions in carousel view */
+/* Caption anchored to each image */
+.portfolio-gallery .kg-image-card {
+    flex-direction: column;
+}
+
 .portfolio-gallery .kg-image-card figcaption {
-    display: none;
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: 80%;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--color-primary-text);
+    opacity: 0.7;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
 }
 
 /* ==========================================================================
@@ -95,23 +111,8 @@
    Caption Display
    ========================================================================== */
 
+/* Hide the overlay caption - using inline figcaptions instead */
 .portfolio-caption {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    text-align: center;
-    max-width: 80%;
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: var(--color-primary-text);
-    opacity: 0.7;
-    letter-spacing: -0.01em;
-    transition: opacity 0.3s ease;
-}
-
-.portfolio-caption:empty {
     display: none;
 }
 

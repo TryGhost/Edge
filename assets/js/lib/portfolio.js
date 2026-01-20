@@ -12,7 +12,6 @@
     // DOM elements
     var gallery = container.querySelector('.portfolio-gallery');
     var slides = gallery.querySelectorAll('.kg-image-card');
-    var captionEl = container.querySelector('.portfolio-caption');
 
     // State
     var currentIndex = 0;
@@ -35,7 +34,6 @@
 
         // Update UI state
         updateCursor();
-        updateCaption();
 
         // Bind events
         bindEvents();
@@ -109,7 +107,6 @@
 
         currentIndex = index;
         updateCursor();
-        updateCaption();
         preloadAdjacent(index);
     }
 
@@ -153,19 +150,6 @@
     }
 
     /**
-     * Update caption from current slide's figcaption
-     */
-    function updateCaption() {
-        if (!captionEl) return;
-
-        var currentSlide = slides[currentIndex];
-        var figcaption = currentSlide ? currentSlide.querySelector('figcaption') : null;
-        var captionText = figcaption ? figcaption.textContent.trim() : '';
-
-        captionEl.textContent = captionText;
-    }
-
-    /**
      * Sync current index from scroll position
      */
     function handleScroll() {
@@ -178,7 +162,6 @@
                 if (i !== currentIndex) {
                     currentIndex = i;
                     updateCursor();
-                    updateCaption();
                     preloadAdjacent(i);
                 }
                 break;
@@ -197,9 +180,6 @@
      * Handle click - navigate based on which side was clicked
      */
     function handleClick(e) {
-        // Don't navigate if clicking on caption
-        if (e.target.closest('.portfolio-caption')) return;
-
         // First image: always go forward
         if (currentIndex === 0) {
             navigate(1);
