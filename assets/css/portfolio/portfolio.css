@@ -93,19 +93,6 @@
     white-space: nowrap;
 }
 
-/* ==========================================================================
-   Cursor-based Navigation
-   ========================================================================== */
-
-.portfolio-gallery.cursor-prev,
-.portfolio-gallery.cursor-prev * {
-    cursor: w-resize !important;
-}
-
-.portfolio-gallery.cursor-next,
-.portfolio-gallery.cursor-next * {
-    cursor: e-resize !important;
-}
 
 /* ==========================================================================
    Caption Display

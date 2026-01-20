@@ -32,9 +32,6 @@
         // Preload adjacent images
         preloadAdjacent(currentIndex);
 
-        // Update UI state
-        updateCursor();
-
         // Bind events
         bindEvents();
     }
@@ -106,7 +103,6 @@
         });
 
         currentIndex = index;
-        updateCursor();
         preloadAdjacent(index);
     }
 
@@ -115,38 +111,6 @@
      */
     function navigate(direction) {
         navigateToSlide(currentIndex + direction);
-    }
-
-    /**
-     * Update cursor based on current position and boundaries
-     */
-    function updateCursor(mouseX) {
-        gallery.classList.remove('cursor-prev', 'cursor-next');
-
-        // If no mouse position provided, don't set a directional cursor
-        if (mouseX === undefined) return;
-
-        // First image: always show next cursor
-        if (currentIndex === 0) {
-            gallery.classList.add('cursor-next');
-            return;
-        }
-
-        // Last image: always show prev cursor
-        if (currentIndex === totalSlides - 1) {
-            gallery.classList.add('cursor-prev');
-            return;
-        }
-
-        // Middle images: cursor based on position
-        var galleryRect = gallery.getBoundingClientRect();
-        var centerX = galleryRect.left + galleryRect.width / 2;
-
-        if (mouseX < centerX) {
-            gallery.classList.add('cursor-prev');
-        } else {
-            gallery.classList.add('cursor-next');
-        }
     }
 
     /**
@@ -161,19 +125,11 @@
             if (slideRect.left <= centerX && slideRect.right >= centerX) {
                 if (i !== currentIndex) {
                     currentIndex = i;
-                    updateCursor();
                     preloadAdjacent(i);
                 }
                 break;
             }
         }
-    }
-
-    /**
-     * Handle mouse movement - update cursor based on position
-     */
-    function handleMouseMove(e) {
-        updateCursor(e.clientX);
     }
 
     /**
@@ -247,14 +203,6 @@
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(handleScroll, 150);
         }, { passive: true });
-
-        // Mouse movement for cursor updates
-        gallery.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-        // Reset cursor when mouse leaves
-        gallery.addEventListener('mouseleave', function() {
-            gallery.classList.remove('cursor-prev', 'cursor-next');
-        });
 
         // Click navigation
         gallery.addEventListener('click', handleClick);
