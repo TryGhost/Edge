@@ -1,6 +1,6 @@
 /**
  * Portfolio - Horizontal Scroll Gallery
- * Handles keyboard navigation, wheel conversion, idle UI hide, and preloading
+ * Handles keyboard navigation, wheel conversion, and preloading
  */
 (function() {
     'use strict';
@@ -19,8 +19,6 @@
     // State
     var currentIndex = 0;
     var totalSlides = slides.length;
-    var idleTimer = null;
-    var IDLE_TIMEOUT = 2000;
 
     /**
      * Initialize portfolio
@@ -40,9 +38,6 @@
 
         // Bind events
         bindEvents();
-
-        // Start idle timer
-        resetIdleTimer();
     }
 
     /**
@@ -171,31 +166,6 @@
     }
 
     /**
-     * Reset idle timer for UI auto-hide
-     */
-    function resetIdleTimer() {
-        showUI();
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(hideUI, IDLE_TIMEOUT);
-    }
-
-    /**
-     * Show UI elements
-     */
-    function showUI() {
-        container.classList.remove('ui-hidden');
-        document.body.classList.remove('ui-hidden');
-    }
-
-    /**
-     * Hide UI elements
-     */
-    function hideUI() {
-        container.classList.add('ui-hidden');
-        document.body.classList.add('ui-hidden');
-    }
-
-    /**
      * Convert vertical wheel to horizontal scroll
      */
     function handleWheel(e) {
@@ -203,7 +173,6 @@
             e.preventDefault();
             gallery.scrollLeft += e.deltaY;
         }
-        resetIdleTimer();
     }
 
     /**
@@ -215,23 +184,19 @@
             case 'ArrowDown':
                 e.preventDefault();
                 navigate(1);
-                resetIdleTimer();
                 break;
             case 'ArrowLeft':
             case 'ArrowUp':
                 e.preventDefault();
                 navigate(-1);
-                resetIdleTimer();
                 break;
             case 'Home':
                 e.preventDefault();
                 navigateToSlide(0);
-                resetIdleTimer();
                 break;
             case 'End':
                 e.preventDefault();
                 navigateToSlide(totalSlides - 1);
-                resetIdleTimer();
                 break;
         }
     }
@@ -245,7 +210,6 @@
             prevBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 navigate(-1);
-                resetIdleTimer();
             });
         }
 
@@ -253,7 +217,6 @@
             nextBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 navigate(1);
-                resetIdleTimer();
             });
         }
 
@@ -269,14 +232,6 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', handleKeydown);
-
-        // Activity resets idle timer
-        ['mousemove', 'touchstart', 'touchmove'].forEach(function(event) {
-            container.addEventListener(event, resetIdleTimer, { passive: true });
-        });
-
-        // Click on gallery resets idle timer
-        gallery.addEventListener('click', resetIdleTimer);
     }
 
     // Initialize when DOM is ready

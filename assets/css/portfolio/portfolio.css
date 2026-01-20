@@ -157,22 +157,6 @@
 }
 
 /* ==========================================================================
-   UI Auto-Hide
-   ========================================================================== */
-
-.portfolio-container.ui-hidden .portfolio-nav,
-.portfolio-container.ui-hidden .portfolio-caption {
-    opacity: 0;
-    pointer-events: none;
-}
-
-body.ui-hidden #gh-head {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-/* ==========================================================================
    Responsive
    ========================================================================== */
 
