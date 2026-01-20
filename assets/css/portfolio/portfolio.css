@@ -68,9 +68,10 @@
 }
 
 .portfolio-gallery .kg-image-card img.kg-image {
-    height: 75vh;
+    height: 85vh;
     width: auto;
     object-fit: contain;
+    cursor: default;
 }
 
 /* Hide captions in carousel view */
@@ -181,7 +182,7 @@ body.ui-hidden #gh-head {
     }
 
     .portfolio-gallery .kg-image-card img.kg-image {
-        height: 65vh;
+        height: 75vh;
     }
 
     .portfolio-nav {
